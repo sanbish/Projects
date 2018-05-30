@@ -1,0 +1,88 @@
+﻿@model CrmApi.Data.Brand
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Brand</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.brandName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.brandName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.rootEntity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.rootEntity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mainBranchId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mainBranchId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mainDepartmentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mainDepartmentId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.brandLocation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.brandLocation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.website)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.website)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.timeZone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.timeZone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.enabled)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.enabled)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

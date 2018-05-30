@@ -1,0 +1,75 @@
+﻿@model IEnumerable<CrmApi.Data.Brand>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.brandName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.rootEntity)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.mainBranchId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.mainDepartmentId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.brandLocation)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.website)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.timeZone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.enabled)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.brandName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.rootEntity)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.mainBranchId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.mainDepartmentId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.brandLocation)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.website)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.timeZone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.enabled)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.brandId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.brandId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.brandId })
+        </td>
+    </tr>
+}
+
+</table>

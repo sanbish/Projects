@@ -1,0 +1,386 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="CrmDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Branch">
+          <Key>
+            <PropertyRef Name="branchId" />
+          </Key>
+          <Property Name="branchId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="brandId" Type="int" Nullable="false" />
+          <Property Name="parentId" Type="int" />
+          <Property Name="branchName" Type="varchar" MaxLength="50" />
+          <Property Name="code" Type="varchar" MaxLength="50" />
+          <Property Name="affiliateTag" Type="varchar" MaxLength="50" />
+          <Property Name="location" Type="varchar" MaxLength="50" />
+          <Property Name="language" Type="tinyint" />
+          <Property Name="timeZone" Type="tinyint" />
+          <Property Name="enabled" Type="bit" />
+        </EntityType>
+        <EntityType Name="Brand">
+          <Key>
+            <PropertyRef Name="brandId" />
+          </Key>
+          <Property Name="brandId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="brandName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="rootEntity" Type="bit" />
+          <Property Name="mainBranchId" Type="int" />
+          <Property Name="mainDepartmentId" Type="int" />
+          <Property Name="brandLocation" Type="varchar" MaxLength="150" />
+          <Property Name="website" Type="varchar" MaxLength="150" />
+          <Property Name="timeZone" Type="tinyint" />
+          <Property Name="enabled" Type="bit" />
+        </EntityType>
+        <EntityType Name="BrandServer">
+          <Key>
+            <PropertyRef Name="brandId" />
+            <PropertyRef Name="serverId" />
+          </Key>
+          <Property Name="brandId" Type="int" Nullable="false" />
+          <Property Name="serverId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="departmentId" />
+          </Key>
+          <Property Name="departmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="departmentName" Type="varchar" MaxLength="50" />
+          <Property Name="brandId" Type="int" Nullable="false" />
+          <Property Name="parentId" Type="int" />
+          <Property Name="parentName" Type="varchar" MaxLength="50" />
+          <Property Name="rootEntity" Type="bit" />
+          <Property Name="brandName" Type="varchar" MaxLength="50" />
+          <Property Name="branchName" Type="varchar" MaxLength="50" />
+          <Property Name="managerId" Type="int" />
+          <Property Name="managerName" Type="varchar" MaxLength="50" />
+          <Property Name="description" Type="varchar" MaxLength="50" />
+          <Property Name="location" Type="varchar" MaxLength="50" />
+          <Property Name="language" Type="tinyint" />
+          <Property Name="timeZone" Type="tinyint" />
+          <Property Name="enabled" Type="bit" />
+        </EntityType>
+        <EntityType Name="DepartmentUsers">
+          <Key>
+            <PropertyRef Name="departmentId" />
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="departmentId" Type="int" Nullable="false" />
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="fullName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="isManager" Type="bit" Nullable="false" />
+          <Property Name="position" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="Language">
+          <Key>
+            <PropertyRef Name="lngId" />
+          </Key>
+          <Property Name="lngId" Type="tinyint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="lngName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="lngCode" Type="varchar" MaxLength="50" />
+          <Property Name="status" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TradingServer">
+          <Key>
+            <PropertyRef Name="serverId" />
+          </Key>
+          <Property Name="serverId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="serverName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="url" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_Branch_ParentBranch">
+          <End Role="Branch" Type="Self.Branch" Multiplicity="0..1" />
+          <End Role="Branch1" Type="Self.Branch" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branch">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Branch1">
+              <PropertyRef Name="parentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BrandServer_Brand">
+          <End Role="Brand" Type="Self.Brand" Multiplicity="1" />
+          <End Role="BrandServer" Type="Self.BrandServer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Brand">
+              <PropertyRef Name="brandId" />
+            </Principal>
+            <Dependent Role="BrandServer">
+              <PropertyRef Name="brandId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BrandServer_TradingServer">
+          <End Role="TradingServer" Type="Self.TradingServer" Multiplicity="1" />
+          <End Role="BrandServer" Type="Self.BrandServer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="TradingServer">
+              <PropertyRef Name="serverId" />
+            </Principal>
+            <Dependent Role="BrandServer">
+              <PropertyRef Name="serverId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CrmDBModelStoreContainer">
+          <EntitySet Name="Branch" EntityType="Self.Branch" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Brand" EntityType="Self.Brand" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BrandServer" EntityType="Self.BrandServer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DepartmentUsers" EntityType="Self.DepartmentUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Language" EntityType="Self.Language" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TradingServer" EntityType="Self.TradingServer" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Branch_ParentBranch" Association="Self.FK_Branch_ParentBranch">
+            <End Role="Branch" EntitySet="Branch" />
+            <End Role="Branch1" EntitySet="Branch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BrandServer_Brand" Association="Self.FK_BrandServer_Brand">
+            <End Role="Brand" EntitySet="Brand" />
+            <End Role="BrandServer" EntitySet="BrandServer" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BrandServer_TradingServer" Association="Self.FK_BrandServer_TradingServer">
+            <End Role="TradingServer" EntitySet="TradingServer" />
+            <End Role="BrandServer" EntitySet="BrandServer" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CrmDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Brands" EntityType="CrmDBModel.Brand" />
+          <EntitySet Name="TradingServers" EntityType="CrmDBModel.TradingServer" />
+          <AssociationSet Name="BrandServer" Association="CrmDBModel.BrandServer">
+            <End Role="Brand" EntitySet="Brands" />
+            <End Role="TradingServer" EntitySet="TradingServers" />
+          </AssociationSet>
+          <EntitySet Name="Branches" EntityType="CrmDBModel.Branch" />
+          <EntitySet Name="Languages" EntityType="CrmDBModel.Language" />
+          <AssociationSet Name="FK_Branch_ParentBranch" Association="CrmDBModel.FK_Branch_ParentBranch">
+            <End Role="Branch" EntitySet="Branches" />
+            <End Role="Branch1" EntitySet="Branches" />
+          </AssociationSet>
+          <EntitySet Name="Departments" EntityType="CrmDBModel.Department" />
+          <EntitySet Name="DepartmentUsers" EntityType="CrmDBModel.DepartmentUser" />
+          </EntityContainer>
+        <EntityType Name="Brand">
+          <Key>
+            <PropertyRef Name="brandId" />
+          </Key>
+          <Property Name="brandId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="brandName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="rootEntity" Type="Boolean" />
+          <Property Name="mainBranchId" Type="Int32" />
+          <Property Name="mainDepartmentId" Type="Int32" />
+          <Property Name="brandLocation" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="website" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="timeZone" Type="Byte" />
+          <Property Name="enabled" Type="Boolean" />
+          <NavigationProperty Name="tradingServers" Relationship="CrmDBModel.BrandServer" FromRole="Brand" ToRole="TradingServer" />
+        </EntityType>
+        <EntityType Name="TradingServer">
+          <Key>
+            <PropertyRef Name="serverId" />
+          </Key>
+          <Property Name="serverId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="serverName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="url" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Brands" Relationship="CrmDBModel.BrandServer" FromRole="TradingServer" ToRole="Brand" />
+        </EntityType>
+        <Association Name="BrandServer">
+          <End Type="CrmDBModel.Brand" Role="Brand" Multiplicity="*" />
+          <End Type="CrmDBModel.TradingServer" Role="TradingServer" Multiplicity="*" />
+        </Association>
+        <EntityType Name="Branch">
+          <Key>
+            <PropertyRef Name="branchId" />
+          </Key>
+          <Property Name="branchId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="brandId" Type="Int32" Nullable="false" />
+          <Property Name="parentId" Type="Int32" />
+          <Property Name="branchName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="code" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="affiliateTag" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="language" Type="Byte" />
+          <Property Name="timeZone" Type="Byte" />
+          <Property Name="enabled" Type="Boolean" />
+          <NavigationProperty Name="Branch1" Relationship="CrmDBModel.FK_Branch_ParentBranch" FromRole="Branch" ToRole="Branch1" />
+          <NavigationProperty Name="Branch2" Relationship="CrmDBModel.FK_Branch_ParentBranch" FromRole="Branch1" ToRole="Branch" />
+        </EntityType>
+        <EntityType Name="Language">
+          <Key>
+            <PropertyRef Name="lngId" />
+          </Key>
+          <Property Name="lngId" Type="Byte" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="lngName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="lngCode" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="status" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Branch_ParentBranch">
+          <End Type="CrmDBModel.Branch" Role="Branch" Multiplicity="0..1" />
+          <End Type="CrmDBModel.Branch" Role="Branch1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branch">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="Branch1">
+              <PropertyRef Name="parentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Department">
+          <Key>
+            <PropertyRef Name="departmentId" />
+          </Key>
+          <Property Name="departmentId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="departmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="brandId" Type="Int32" Nullable="false" />
+          <Property Name="parentId" Type="Int32" />
+          <Property Name="parentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="rootEntity" Type="Boolean" />
+          <Property Name="brandName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="branchName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="managerId" Type="Int32" />
+          <Property Name="managerName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="language" Type="Byte" />
+          <Property Name="timeZone" Type="Byte" />
+          <Property Name="enabled" Type="Boolean" />
+        </EntityType>
+        <EntityType Name="DepartmentUser">
+          <Key>
+            <PropertyRef Name="departmentId" />
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="departmentId" Type="Int32" Nullable="false" />
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="fullName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="isManager" Type="Boolean" Nullable="false" />
+          <Property Name="position" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="CrmDBModelStoreContainer" CdmEntityContainer="Entities">
+          <EntitySetMapping Name="Brands">
+            <EntityTypeMapping TypeName="CrmDBModel.Brand">
+              <MappingFragment StoreEntitySet="Brand">
+                <ScalarProperty Name="enabled" ColumnName="enabled" />
+                <ScalarProperty Name="timeZone" ColumnName="timeZone" />
+                <ScalarProperty Name="website" ColumnName="website" />
+                <ScalarProperty Name="brandLocation" ColumnName="brandLocation" />
+                <ScalarProperty Name="mainDepartmentId" ColumnName="mainDepartmentId" />
+                <ScalarProperty Name="mainBranchId" ColumnName="mainBranchId" />
+                <ScalarProperty Name="rootEntity" ColumnName="rootEntity" />
+                <ScalarProperty Name="brandName" ColumnName="brandName" />
+                <ScalarProperty Name="brandId" ColumnName="brandId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TradingServers">
+            <EntityTypeMapping TypeName="CrmDBModel.TradingServer">
+              <MappingFragment StoreEntitySet="TradingServer">
+                <ScalarProperty Name="url" ColumnName="url" />
+                <ScalarProperty Name="serverName" ColumnName="serverName" />
+                <ScalarProperty Name="serverId" ColumnName="serverId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="BrandServer" TypeName="CrmDBModel.BrandServer" StoreEntitySet="BrandServer">
+            <EndProperty Name="TradingServer">
+              <ScalarProperty Name="serverId" ColumnName="serverId" />
+            </EndProperty>
+            <EndProperty Name="Brand">
+              <ScalarProperty Name="brandId" ColumnName="brandId" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <EntitySetMapping Name="Branches">
+            <EntityTypeMapping TypeName="CrmDBModel.Branch">
+              <MappingFragment StoreEntitySet="Branch">
+                <ScalarProperty Name="enabled" ColumnName="enabled" />
+                <ScalarProperty Name="timeZone" ColumnName="timeZone" />
+                <ScalarProperty Name="language" ColumnName="language" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="affiliateTag" ColumnName="affiliateTag" />
+                <ScalarProperty Name="code" ColumnName="code" />
+                <ScalarProperty Name="branchName" ColumnName="branchName" />
+                <ScalarProperty Name="parentId" ColumnName="parentId" />
+                <ScalarProperty Name="brandId" ColumnName="brandId" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Languages">
+            <EntityTypeMapping TypeName="CrmDBModel.Language">
+              <MappingFragment StoreEntitySet="Language">
+                <ScalarProperty Name="status" ColumnName="status" />
+                <ScalarProperty Name="lngCode" ColumnName="lngCode" />
+                <ScalarProperty Name="lngName" ColumnName="lngName" />
+                <ScalarProperty Name="lngId" ColumnName="lngId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Departments">
+            <EntityTypeMapping TypeName="CrmDBModel.Department">
+              <MappingFragment StoreEntitySet="Department">
+                <ScalarProperty Name="enabled" ColumnName="enabled" />
+                <ScalarProperty Name="timeZone" ColumnName="timeZone" />
+                <ScalarProperty Name="language" ColumnName="language" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="description" ColumnName="description" />
+                <ScalarProperty Name="managerName" ColumnName="managerName" />
+                <ScalarProperty Name="managerId" ColumnName="managerId" />
+                <ScalarProperty Name="branchName" ColumnName="branchName" />
+                <ScalarProperty Name="brandName" ColumnName="brandName" />
+                <ScalarProperty Name="rootEntity" ColumnName="rootEntity" />
+                <ScalarProperty Name="parentName" ColumnName="parentName" />
+                <ScalarProperty Name="parentId" ColumnName="parentId" />
+                <ScalarProperty Name="brandId" ColumnName="brandId" />
+                <ScalarProperty Name="departmentName" ColumnName="departmentName" />
+                <ScalarProperty Name="departmentId" ColumnName="departmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DepartmentUsers">
+            <EntityTypeMapping TypeName="CrmDBModel.DepartmentUser">
+              <MappingFragment StoreEntitySet="DepartmentUsers">
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="isManager" ColumnName="isManager" />
+                <ScalarProperty Name="fullName" ColumnName="fullName" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="departmentId" ColumnName="departmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

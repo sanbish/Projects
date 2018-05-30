@@ -1,0 +1,41 @@
+﻿@model AddPhoneNumberViewModel
+@{
+    ViewData["Title"] = "Add Phone Number";
+}
+
+<h2>@ViewData["Title"].</h2>
+<form asp-controller="Manage" asp-action="AddPhoneNumber" method="post" class="form-horizontal">
+    <h4>Add a phone number.</h4>
+    <hr />
+    <div asp-validation-summary="All" class="text-danger"></div>
+    <div class="form-group">
+        <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
+        <div class="col-md-10">
+            <input class="form-control" id="phone" type="tel">
+            <span id="valid-msg" class="hide">✓ Valid</span>
+            <span id="error-msg" class="hide">Invalid number</span>
+            <input type="hidden" asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+        </div>
+    </div>
+    @*<div class="form-group">
+        <label class="col-md-2 control-label">Country</label>
+        <div class="col-md-10">
+            <select class="form-control" id="address-country"></select>
+        </div>
+    </div>*@
+    <div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <button type="submit" class="btn btn-default">Send verification code</button>
+    </div>
+</div>
+</form>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+@{ await Html.RenderPartialAsync("_IntTelScriptsPartial"); }
+}
+
+@section Styles {
+    @{ await Html.RenderPartialAsync("_IntTelStylesPartial"); }
+}

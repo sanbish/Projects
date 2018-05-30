@@ -1,0 +1,160 @@
+﻿@using System.Collections.Generic
+@using Microsoft.AspNetCore.Http
+@using Microsoft.AspNetCore.Http.Authentication
+@model IdentityServer4.Quickstart.UI.Models.LoginViewModel
+@inject SignInManager<ApplicationUser> SignInManager
+@{
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+    ViewData["Title"] = "Log in";
+}
+
+<br />
+<br />
+
+@*<div asp-validation-summary="All" class="text-danger tab-content"></div>*@
+<div class="row fdap-customer-home-container" role="contentinfo">
+
+    <div class="col-sm-12">
+        <div class="form-bootstrapWizard clearfix">
+            <div asp-validation-summary="All" class="text-danger tab-content text-center py-3"></div>
+            <div class="text-success tab-content text-center py-3">@TempData["AccountMessage"]</div>
+            <div class="px-5 mt-5 fdap-cust-background-screen">
+                <div class="tab-content">
+                    <div class="tab-pane active">
+                        <h5 class="text-center fdap-cust-form-title"><strong>Login</strong></h5>
+                        <div class="row">
+                            <form id="my_form" asp-controller="Account" asp-action="Login" asp-route-returnurl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                <div class="col-sm-offset-1 col-sm-10 col-xs-12">
+                                    <div class="form-group has-feedback">
+                                        <div class="input-group">
+                                            <span class="input-group-addon fdap-cust-input-icons"><i class="fa icon-user fa-fw fa-2x "></i></span>
+                                            <input asp-for="Email" class="form-control fdap-input-fields input-lg ng-untouched ng-pristine ng-invalid text-center" maxlength="30" placeholder="User Email" placement="top" required type="text" pattern="^([0-9A-Za-z#&amp;_.,-/]+[0-9A-Za-z#&amp;_.,-/ ]+)?$">
+                                            <i class="form-control-feedback glyphicon"></i>
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-offset-1 col-sm-10 col-xs-12">
+                                    <div class="form-group has-feedback">
+                                        <div class="input-group">
+                                            <span class="input-group-addon fdap-cust-input-icons"><i class="fa icon-user fa-fw fa-2x invisible"></i></span>
+                                            <input asp-for="Password" class="form-control fdap-input-fields input-lg ng-untouched ng-pristine ng-invalid text-center" maxlength="30" placeholder="Password" placement="top" required type="password" pattern="^([0-9A-Za-z#&amp;_.,-/]+[0-9A-Za-z#&amp;_.,-/ ]+)?$">
+                                            <i class="form-control-feedback glyphicon"></i>
+                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-offset-1 col-sm-5 col-xs-7">
+                                    <div class="checkbox">
+                                        <label asp-for="RememberLogin" class="fdap-font-color-white">
+                                            <input asp-for="RememberLogin" />
+                                            Remember Me
+                                        </label>
+
+                                    </div>
+                                </div>
+
+                                <div class="col-sm-5">
+                                    <div class="form-group has-feedback">
+                                        <span class="fdap-cust-form-title pull-right"><a class="fdap-cust-login-register" asp-action="ForgotPassword">Forgot your password?</a></span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="fdap-cust-footer-margin form-actions no-margin">
+                                        <div class="row">
+                                            <div class="col-sm-offset-1  col-sm-10 col-xs-12 px-xs-0 px-0">
+                                                @*<ul class="pager fdap-wizard-footer-button wizard no-margin">
+                                                        <li class="next">
+                                                            <a class="btn btn-lg fdap-cust-form-title fdap-border-radius-5" href="javascript:{}" onclick="document.getElementById('my_form').submit(); return false;">
+                                                                Register
+                                                            </a>
+                                                        </li>
+                                                    </ul>*@
+                                                <button type="submit" class="btn btn-lg fdap-cust-form-title fdap-border-radius-5" style="background:linear-gradient(#F9AB1A, #DE8F26)">Sign in</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                            @{
+                                var loginProviders = Model.ExternalProviders.ToArray();
+                                if (loginProviders.Length > 0)
+                                {
+                                    <form asp-controller="Account" asp-action="ExternalLogin" asp-route-returnurl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                        <div class="col-xs-12">
+                                            <h5 class="my-6 text-center fdap-cust-form-title"><strong>Login</strong> with your social media account</h5>
+                                            @*<div class="text-center fdap-cust-form-title">With your social media account</div>*@
+                                        </div>
+
+                                        <div class="col-sm-offset-1 col-sm-10 col-xs-12 pt-3">
+
+                                            @foreach (var provider in loginProviders)
+                                            {
+                                                switch (provider.DisplayName.ToLower())
+                                                {
+                                                    case "facebook":
+                                                        {
+                                                            <button type="submit" class="fdap-cust-login-fb-btn text-center py-2 fdap-font-color-white"
+                                                                    name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account">
+                                                                <i class="fa fa-facebook pr-2"></i> @provider.AuthenticationScheme
+                                                            </button>
+                                                            break;
+                                                        }
+                                                    case "google":
+                                                        {
+                                                            <button type="submit" class="fdap-cust-login-gm-btn text-center py-2 fdap-font-color-white"
+                                                                    name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account">
+                                                                <i class="fa fa-google-plus pr-2"></i> @provider.AuthenticationScheme
+                                                            </button>
+                                                            break;
+                                                        }
+                                                    case "twitter":
+                                                        {
+                                                            <button type="submit" class="fdap-cust-login-tw-btn text-center py-2 fdap-font-color-white"
+                                                                    name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account">
+                                                                <i class="fa fa-twitter pr-2"></i> @provider.AuthenticationScheme
+                                                            </button>
+                                                            break;
+                                                        }
+                                                    case "microsoft":
+                                                        {
+                                                            <button type="submit" class="fdap-cust-login-hm-btn text-center py-2 fdap-font-color-white"
+                                                                    name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account">
+                                                                <i class="fa fa-envelope pr-2"></i> @provider.AuthenticationScheme
+                                                            </button>
+                                                            break;
+                                                        }
+                                                    default:
+                                                        {
+                                                            <button type="submit" class="fdap-cust-login-hm-btn text-center py-2 fdap-font-color-white"
+                                                                    name="provider" value="@provider.AuthenticationScheme" title="Log in using your @provider.DisplayName account">
+                                                                <i class="fa fa-twitter pr-2"></i> @provider.AuthenticationScheme
+                                                            </button>
+                                                            break;
+                                                        }
+                                                }
+                                            }
+                                            &nbsp;&nbsp;&nbsp;&nbsp;
+                                        </div>
+                                    </form>
+                                }
+                            }
+
+                            <div class="col-xs-12 py-3">
+                                <br />
+                                <div class="my-6 text-center fdap-font-color-white">Don't have any Account? <a asp-action="Register" asp-route-returnurl="@Model.ReturnUrl" class="fdap-cust-login-register">Register Now!</a></div>
+                                <br />
+                                <br />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

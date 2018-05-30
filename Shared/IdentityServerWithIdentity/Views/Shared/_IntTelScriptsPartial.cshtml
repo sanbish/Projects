@@ -1,0 +1,62 @@
+﻿<environment names="Development">
+    <script src="~/int-tel/js/intlTelInput.js"></script>
+</environment>
+<environment names="Staging,Production">
+    <script src="~/int-tel/js/intlTelInput.min.js"></script>
+</environment>
+<script type="text/javascript">
+
+    var countryData = $.fn.intlTelInput.getCountryData();
+    $.each(countryData, function (i, country) {
+        country.name = country.name.replace(/.+\((.+)\)/, "$1");
+    });
+    var telInput = $("#phone"),
+  errorMsg = $("#error-msg"),
+  validMsg = $("#valid-msg");
+    
+    // initialise plugin
+    telInput.intlTelInput({
+        initialCountry: "auto",
+        geoIpLookup: function (callback) {
+            $.get('https://ipinfo.io', function () { }, "jsonp").always(function (resp) {
+                var countryCode = (resp && resp.country) ? resp.country : "";
+                callback(countryCode);
+            });
+        },
+        utilsScript: "@Url.Content("~/int-tel/js/utils.js")"
+    });
+
+    var reset = function () {
+        telInput.removeClass("error");
+        errorMsg.addClass("hide");
+        validMsg.addClass("hide");
+    };
+
+    // on blur: validate
+    telInput.blur(function () {
+        reset();
+        if ($.trim(telInput.val())) {
+            if (telInput.intlTelInput("isValidNumber")) {
+                validMsg.removeClass("hide");
+            } else {
+                telInput.addClass("error");
+                errorMsg.removeClass("hide");
+            }
+        }
+    });
+
+    // on keyup / change flag: reset
+    telInput.on("keyup change", reset);
+
+    // update the hidden input on submit
+    $("form").submit(function (e) {
+        if (telInput.intlTelInput("isValidNumber")) {
+            telInput.parent().parent().children("input[type='hidden']").val($("#phone").intlTelInput("getNumber"));
+            validMsg.removeClass("hide");
+        } else {
+            telInput.addClass("error");
+            errorMsg.removeClass("hide");
+            e.preventDefault(e);
+        }
+    });
+</script>

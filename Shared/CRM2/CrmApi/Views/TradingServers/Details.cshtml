@@ -1,0 +1,34 @@
+﻿@model CrmApi.Data.TradingServer
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TradingServer</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.serverName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.serverName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.url)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.url)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.serverId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

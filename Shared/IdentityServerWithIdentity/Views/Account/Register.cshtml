@@ -1,0 +1,152 @@
+﻿@model RegisterViewModel
+@{
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+    ViewData["Title"] = "Register";
+
+}
+<br />
+<br />
+
+<div class="row fdap-customer-home-container" role="contentinfo">
+
+    <form id="my_form" asp-controller="Account" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+        <div class="col-sm-12">
+            <div class="form-bootstrapWizard clearfix">
+                <div asp-validation-summary="All" class="text-danger tab-content text-center py-3"></div>
+                <div class="px-5 mt-5 fdap-cust-background-screen">
+
+                    <div class="tab-content">
+                        <div class="tab-pane active">
+                            <h5 class="text-center fdap-cust-form-title py-3"><strong>Register an Account</strong></h5>
+                            <div class="row">
+                                <div class="col-sm-offset-1 col-sm-10 col-xs-12">
+                                    <div class="form-group has-feedback">
+                                        <div class="input-group">
+                                            <span class="input-group-addon fdap-cust-input-icons"><i class="fa icon-mail fa-fw fa-2x"></i></span>
+                                            <input asp-for="Email" class="form-control fdap-input-fields input-lg text-center" maxlength="30" placeholder="User Email" placement="top" required pattern="^([0-9A-Za-z-_.]+[0-9A-Za-z-_. ]+)?$" />
+                                            <span asp-validation-for="Email" class="text-danger"></span>
+                                            <i class="form-control-feedback glyphicon"></i>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-offset-1 col-sm-10 col-xs-12">
+                                    <div class="form-group has-feedback">
+                                        <div class="input-group">
+                                            <span class="input-group-addon fdap-cust-input-icons"><i class="fa glyphicon-asterisk fa-fw fa-2x "></i></span>
+                                            <input asp-for="Password" class="form-control fdap-input-fields input-lg text-center" maxlength="30" placeholder="Password" placement="top" required pattern="^([0-9A-Za-z#&amp;_.,-/]+[0-9A-Za-z#&amp;_.,-/ ]+)?$" />
+                                            <span asp-validation-for="Password" class="text-danger"></span>
+                                            <i class="form-control-feedback glyphicon"></i>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-offset-1 col-sm-10 col-xs-12">
+                                    <div class="form-group has-feedback">
+                                        <div class="input-group">
+                                            <span class="input-group-addon fdap-cust-input-icons"><i class="fa glyphicon-asterisk fa-fw fa-2x "></i></span>
+                                            <input asp-for="ConfirmPassword" class="form-control fdap-input-fields input-lg text-center" maxlength="30" placeholder="Retype Passward" placement="top" required pattern="^([0-9A-Za-z#&amp;_.,-/]+[0-9A-Za-z#&amp;_.,-/ ]+)?$" />
+                                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                                            <i class="form-control-feedback glyphicon"></i>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-offset-1 col-sm-10 col-xs-12">
+                                    <div class="form-group has-feedback">
+                                        <div class="input-group">
+                                            <span class="input-group-addon fdap-cust-input-icons"><i class="fa icon-user fa-fw fa-2x "></i></span>
+                                            <input asp-for="FirstName" class="form-control fdap-input-fields input-lg text-center" maxlength="30" placeholder="First Name" placement="top" />
+                                            <span asp-validation-for="FirstName" class="text-danger"></span>
+                                            <i class="form-control-feedback glyphicon"></i>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-offset-1 col-sm-10 col-xs-12">
+                                    <div class="form-group has-feedback">
+                                        <div class="input-group">
+                                            <span class="input-group-addon fdap-cust-input-icons"><i class="fa icon-user fa-fw fa-2x "></i></span>
+                                            <input asp-for="MiddleName" class="form-control fdap-input-fields input-lg text-center" maxlength="30" placeholder="Middle Name" placement="top" />
+                                            <span asp-validation-for="MiddleName" class="text-danger"></span>
+                                            <i class="form-control-feedback glyphicon"></i>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-offset-1 col-sm-10 col-xs-12">
+                                    <div class="form-group has-feedback">
+                                        <div class="input-group">
+                                            <span class="input-group-addon fdap-cust-input-icons"><i class="fa icon-user fa-fw fa-2x "></i></span>
+                                            <input asp-for="LastName" class="form-control fdap-input-fields input-lg text-center" maxlength="30" placeholder="Last Name" placement="top" />
+                                            <span asp-validation-for="LastName" class="text-danger"></span>
+                                            <i class="form-control-feedback glyphicon"></i>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                </div>
+                                @*<div class="form-group">
+                                        <label class="col-md-2 control-label">Country</label>
+                                        <div class="col-md-10">
+                                            <select class="form-control" asp-for="CountryCode"></select>
+                                        </div>
+                                    </div>*@
+                                <div class="col-sm-offset-1 col-sm-10 col-xs-12">
+                                    <div class="form-group has-feedback">
+                                        <div class="input-group">
+                                            <span class="input-group-addon fdap-cust-input-icons"><i class="fa icon-phone fa-fw fa-2x "></i></span>
+                                            <input asp-for="PhoneNumber" class="form-control fdap-input-fields input-lg text-center" maxlength="30" placeholder="Phone Number" placement="top" />
+                                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                                            <i class="form-control-feedback glyphicon"></i>
+                                            <!---->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-offset-1 col-sm-10 col-xs-12">
+                                    <div class="form-group has-feedback">
+                                        <span class="fdap-cust-form-title"><input type="checkbox" /></span>
+                                        <span class="fdap-cust-form-title">By registering an account, you accept all term and conditions</span>
+                                    </div>
+                                </div>
+                                <div class="col-sm-offset-1 col-sm-12 mx-5">
+                                    <div class="fdap-cust-footer-margin form-actions no-margin">
+                                        <div class="row">
+                                            <div class="col-sm-10 col-xs-12 px-xs-0">
+                                                @*<ul class="pager fdap-wizard-footer-button wizard no-margin">
+                                                        <li class="next">
+                                                            <a class="btn btn-lg fdap-cust-form-title fdap-border-radius-5" href="javascript:{}" onclick="document.getElementById('my_form').submit(); return false;">
+                                                                Register
+                                                            </a>
+                                                        </li>
+                                                    </ul>*@
+                                                <button type="submit" class="btn btn-lg fdap-cust-form-title fdap-border-radius-5" style="background:linear-gradient(#F9AB1A, #DE8F26)">Submit</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xs-12 py-3">
+                                    
+                                    <div class="my-6 text-center fdap-font-color-white">Already registered? <a href="/account/login" class="class=" fdap-cust-login-register"">Sign In</a></div>
+                                    <br />
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+    @{ await Html.RenderPartialAsync("_IntTelScriptsPartialRegister"); }
+}
+
+@section Styles {
+    @{ await Html.RenderPartialAsync("_IntTelStylesPartial"); }
+}

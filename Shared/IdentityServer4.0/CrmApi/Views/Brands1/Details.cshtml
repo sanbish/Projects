@@ -1,0 +1,82 @@
+﻿@model CrmApi.Data.Brand
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Brand</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.brandName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.brandName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.rootEntity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.rootEntity)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mainBranchId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mainBranchId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.mainDepartmentId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.mainDepartmentId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.brandLocation)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.brandLocation)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.website)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.website)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.timeZone)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.timeZone)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.enabled)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.enabled)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.brandId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
