@@ -34,6 +34,23 @@
           <Property Name="timeZone" Type="tinyint" />
           <Property Name="enabled" Type="bit" />
         </EntityType>
+        <EntityType Name="BrandInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userId" Type="int" Nullable="false" />
+          <Property Name="brandId" Type="int" Nullable="false" />
+          <Property Name="brandName" Type="varchar" MaxLength="50" />
+          <Property Name="branchId" Type="int" Nullable="false" />
+          <Property Name="branchName" Type="varchar" MaxLength="50" />
+          <Property Name="departmentId" Type="int" />
+          <Property Name="departmentName" Type="varchar" MaxLength="50" />
+          <Property Name="departmentManager" Type="bit" />
+          <Property Name="managerId" Type="int" />
+          <Property Name="workingHoursStart" Type="int" />
+          <Property Name="workingHoursEnd" Type="int" />
+        </EntityType>
         <EntityType Name="BrandServer">
           <Key>
             <PropertyRef Name="brandId" />
@@ -90,6 +107,43 @@
           <Property Name="serverName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="url" Type="varchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="memebershipUserId" Type="bigint" Nullable="false" />
+          <Property Name="userName" Type="nvarchar" MaxLength="256" />
+          <Property Name="email" Type="varchar" MaxLength="30" />
+          <Property Name="password" Type="nvarchar(max)" />
+          <Property Name="profilePicture" Type="nvarchar" MaxLength="256" />
+          <Property Name="signturePicture" Type="nvarchar" MaxLength="256" />
+          <Property Name="firstName" Type="varchar" MaxLength="15" />
+          <Property Name="fullName" Type="varchar" MaxLength="15" />
+          <Property Name="lastName" Type="varchar" MaxLength="15" />
+          <Property Name="phoneNumber" Type="varchar" MaxLength="15" />
+          <Property Name="gender" Type="varchar" MaxLength="15" />
+          <Property Name="birthday" Type="datetime" Nullable="false" />
+          <Property Name="memberSince" Type="datetime" Nullable="false" />
+          <Property Name="location" Type="varchar" MaxLength="80" />
+          <Property Name="languageId" Type="int" />
+          <Property Name="languageName" Type="varchar" MaxLength="100" />
+          <Property Name="position" Type="int" />
+          <Property Name="job" Type="varchar" MaxLength="100" />
+          <Property Name="voIpExtension" Type="varchar" MaxLength="100" />
+          <Property Name="voIpSip" Type="varchar" MaxLength="100" />
+          <Property Name="promoCode" Type="varchar" MaxLength="100" />
+          <Property Name="depositSmsNotification" Type="bit" />
+          <Property Name="enabled" Type="bit" Nullable="false" />
+          <Property Name="isOnline" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserPosition">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" />
+        </EntityType>
         <Association Name="FK_Branch_ParentBranch">
           <End Role="Branch" Type="Self.Branch" Multiplicity="0..1" />
           <End Role="Branch1" Type="Self.Branch" Multiplicity="*" />
@@ -99,6 +153,42 @@
             </Principal>
             <Dependent Role="Branch1">
               <PropertyRef Name="parentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BrandInfo_Branch">
+          <End Role="Branch" Type="Self.Branch" Multiplicity="1" />
+          <End Role="BrandInfo" Type="Self.BrandInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branch">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="BrandInfo">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BrandInfo_Department">
+          <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
+          <End Role="BrandInfo" Type="Self.BrandInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="departmentId" />
+            </Principal>
+            <Dependent Role="BrandInfo">
+              <PropertyRef Name="departmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BrandInfo_User">
+          <End Role="User" Type="Self.User" Multiplicity="1" />
+          <End Role="BrandInfo" Type="Self.BrandInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="BrandInfo">
+              <PropertyRef Name="userId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -129,14 +219,29 @@
         <EntityContainer Name="CrmDBModelStoreContainer">
           <EntitySet Name="Branch" EntityType="Self.Branch" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Brand" EntityType="Self.Brand" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="BrandInfo" EntityType="Self.BrandInfo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BrandServer" EntityType="Self.BrandServer" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DepartmentUsers" EntityType="Self.DepartmentUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Language" EntityType="Self.Language" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TradingServer" EntityType="Self.TradingServer" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserPosition" EntityType="Self.UserPosition" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Branch_ParentBranch" Association="Self.FK_Branch_ParentBranch">
             <End Role="Branch" EntitySet="Branch" />
             <End Role="Branch1" EntitySet="Branch" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BrandInfo_Branch" Association="Self.FK_BrandInfo_Branch">
+            <End Role="Branch" EntitySet="Branch" />
+            <End Role="BrandInfo" EntitySet="BrandInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BrandInfo_Department" Association="Self.FK_BrandInfo_Department">
+            <End Role="Department" EntitySet="Department" />
+            <End Role="BrandInfo" EntitySet="BrandInfo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BrandInfo_User" Association="Self.FK_BrandInfo_User">
+            <End Role="User" EntitySet="User" />
+            <End Role="BrandInfo" EntitySet="BrandInfo" />
           </AssociationSet>
           <AssociationSet Name="FK_BrandServer_Brand" Association="Self.FK_BrandServer_Brand">
             <End Role="Brand" EntitySet="Brand" />
@@ -166,6 +271,21 @@
           </AssociationSet>
           <EntitySet Name="Departments" EntityType="CrmDBModel.Department" />
           <EntitySet Name="DepartmentUsers" EntityType="CrmDBModel.DepartmentUser" />
+          <EntitySet Name="BrandInfoes" EntityType="CrmDBModel.BrandInfo" />
+          <EntitySet Name="Users" EntityType="CrmDBModel.User" />
+          <AssociationSet Name="FK_BrandInfo_Branch" Association="CrmDBModel.FK_BrandInfo_Branch">
+            <End Role="Branch" EntitySet="Branches" />
+            <End Role="BrandInfo" EntitySet="BrandInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BrandInfo_Department" Association="CrmDBModel.FK_BrandInfo_Department">
+            <End Role="Department" EntitySet="Departments" />
+            <End Role="BrandInfo" EntitySet="BrandInfoes" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BrandInfo_User" Association="CrmDBModel.FK_BrandInfo_User">
+            <End Role="User" EntitySet="Users" />
+            <End Role="BrandInfo" EntitySet="BrandInfoes" />
+          </AssociationSet>
+          <EntitySet Name="UserPositions" EntityType="CrmDBModel.UserPosition" />
           </EntityContainer>
         <EntityType Name="Brand">
           <Key>
@@ -211,6 +331,7 @@
           <Property Name="enabled" Type="Boolean" />
           <NavigationProperty Name="Branch1" Relationship="CrmDBModel.FK_Branch_ParentBranch" FromRole="Branch" ToRole="Branch1" />
           <NavigationProperty Name="Branch2" Relationship="CrmDBModel.FK_Branch_ParentBranch" FromRole="Branch1" ToRole="Branch" />
+          <NavigationProperty Name="BrandInfoes" Relationship="CrmDBModel.FK_BrandInfo_Branch" FromRole="Branch" ToRole="BrandInfo" />
         </EntityType>
         <EntityType Name="Language">
           <Key>
@@ -252,6 +373,7 @@
           <Property Name="language" Type="Byte" />
           <Property Name="timeZone" Type="Byte" />
           <Property Name="enabled" Type="Boolean" />
+          <NavigationProperty Name="BrandInfoes" Relationship="CrmDBModel.FK_BrandInfo_Department" FromRole="Department" ToRole="BrandInfo" />
         </EntityType>
         <EntityType Name="DepartmentUser">
           <Key>
@@ -263,6 +385,100 @@
           <Property Name="fullName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="isManager" Type="Boolean" Nullable="false" />
           <Property Name="position" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="BrandInfo">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="userId" Type="Int32" Nullable="false" />
+          <Property Name="brandId" Type="Int32" Nullable="false" />
+          <Property Name="brandName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="branchId" Type="Int32" Nullable="false" />
+          <Property Name="branchName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="departmentId" Type="Int32" />
+          <Property Name="departmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="departmentManager" Type="Boolean" />
+          <Property Name="managerId" Type="Int32" />
+          <Property Name="workingHoursStart" Type="Int32" />
+          <Property Name="workingHoursEnd" Type="Int32" />
+          <NavigationProperty Name="Branch" Relationship="CrmDBModel.FK_BrandInfo_Branch" FromRole="BrandInfo" ToRole="Branch" />
+          <NavigationProperty Name="Department" Relationship="CrmDBModel.FK_BrandInfo_Department" FromRole="BrandInfo" ToRole="Department" />
+          <NavigationProperty Name="User" Relationship="CrmDBModel.FK_BrandInfo_User" FromRole="BrandInfo" ToRole="User" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="userId" />
+          </Key>
+          <Property Name="userId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="memebershipUserId" Type="Int64" Nullable="false" />
+          <Property Name="userName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="email" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="profilePicture" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="signturePicture" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="firstName" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="fullName" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="lastName" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="phoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="gender" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="birthday" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="memberSince" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="location" Type="String" MaxLength="80" FixedLength="false" Unicode="false" />
+          <Property Name="languageId" Type="Int32" />
+          <Property Name="languageName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="position" Type="Int32" />
+          <Property Name="job" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="voIpExtension" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="voIpSip" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="promoCode" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="depositSmsNotification" Type="Boolean" />
+          <Property Name="enabled" Type="Boolean" Nullable="false" />
+          <Property Name="isOnline" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BrandInfoes" Relationship="CrmDBModel.FK_BrandInfo_User" FromRole="User" ToRole="BrandInfo" />
+        </EntityType>
+        <Association Name="FK_BrandInfo_Branch">
+          <End Type="CrmDBModel.Branch" Role="Branch" Multiplicity="1" />
+          <End Type="CrmDBModel.BrandInfo" Role="BrandInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Branch">
+              <PropertyRef Name="branchId" />
+            </Principal>
+            <Dependent Role="BrandInfo">
+              <PropertyRef Name="branchId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BrandInfo_Department">
+          <End Type="CrmDBModel.Department" Role="Department" Multiplicity="0..1" />
+          <End Type="CrmDBModel.BrandInfo" Role="BrandInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Department">
+              <PropertyRef Name="departmentId" />
+            </Principal>
+            <Dependent Role="BrandInfo">
+              <PropertyRef Name="departmentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BrandInfo_User">
+          <End Type="CrmDBModel.User" Role="User" Multiplicity="1" />
+          <End Type="CrmDBModel.BrandInfo" Role="BrandInfo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="User">
+              <PropertyRef Name="userId" />
+            </Principal>
+            <Dependent Role="BrandInfo">
+              <PropertyRef Name="userId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserPosition">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
         </Schema>
     </edmx:ConceptualModels>
@@ -357,6 +573,63 @@
                 <ScalarProperty Name="fullName" ColumnName="fullName" />
                 <ScalarProperty Name="userId" ColumnName="userId" />
                 <ScalarProperty Name="departmentId" ColumnName="departmentId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BrandInfoes">
+            <EntityTypeMapping TypeName="CrmDBModel.BrandInfo">
+              <MappingFragment StoreEntitySet="BrandInfo">
+                <ScalarProperty Name="workingHoursEnd" ColumnName="workingHoursEnd" />
+                <ScalarProperty Name="workingHoursStart" ColumnName="workingHoursStart" />
+                <ScalarProperty Name="managerId" ColumnName="managerId" />
+                <ScalarProperty Name="departmentManager" ColumnName="departmentManager" />
+                <ScalarProperty Name="departmentName" ColumnName="departmentName" />
+                <ScalarProperty Name="departmentId" ColumnName="departmentId" />
+                <ScalarProperty Name="branchName" ColumnName="branchName" />
+                <ScalarProperty Name="branchId" ColumnName="branchId" />
+                <ScalarProperty Name="brandName" ColumnName="brandName" />
+                <ScalarProperty Name="brandId" ColumnName="brandId" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="CrmDBModel.User">
+              <MappingFragment StoreEntitySet="User">
+                <ScalarProperty Name="isOnline" ColumnName="isOnline" />
+                <ScalarProperty Name="enabled" ColumnName="enabled" />
+                <ScalarProperty Name="depositSmsNotification" ColumnName="depositSmsNotification" />
+                <ScalarProperty Name="promoCode" ColumnName="promoCode" />
+                <ScalarProperty Name="voIpSip" ColumnName="voIpSip" />
+                <ScalarProperty Name="voIpExtension" ColumnName="voIpExtension" />
+                <ScalarProperty Name="job" ColumnName="job" />
+                <ScalarProperty Name="position" ColumnName="position" />
+                <ScalarProperty Name="languageName" ColumnName="languageName" />
+                <ScalarProperty Name="languageId" ColumnName="languageId" />
+                <ScalarProperty Name="location" ColumnName="location" />
+                <ScalarProperty Name="memberSince" ColumnName="memberSince" />
+                <ScalarProperty Name="birthday" ColumnName="birthday" />
+                <ScalarProperty Name="gender" ColumnName="gender" />
+                <ScalarProperty Name="phoneNumber" ColumnName="phoneNumber" />
+                <ScalarProperty Name="lastName" ColumnName="lastName" />
+                <ScalarProperty Name="fullName" ColumnName="fullName" />
+                <ScalarProperty Name="firstName" ColumnName="firstName" />
+                <ScalarProperty Name="signturePicture" ColumnName="signturePicture" />
+                <ScalarProperty Name="profilePicture" ColumnName="profilePicture" />
+                <ScalarProperty Name="password" ColumnName="password" />
+                <ScalarProperty Name="email" ColumnName="email" />
+                <ScalarProperty Name="userName" ColumnName="userName" />
+                <ScalarProperty Name="memebershipUserId" ColumnName="memebershipUserId" />
+                <ScalarProperty Name="userId" ColumnName="userId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserPositions">
+            <EntityTypeMapping TypeName="CrmDBModel.UserPosition">
+              <MappingFragment StoreEntitySet="UserPosition">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -14,6 +14,12 @@ namespace CrmApi.Data
     
     public partial class Department
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Department()
+        {
+            this.BrandInfoes = new HashSet<BrandInfo>();
+        }
+    
         public int departmentId { get; set; }
         public string departmentName { get; set; }
         public int brandId { get; set; }
@@ -29,5 +35,8 @@ namespace CrmApi.Data
         public Nullable<byte> language { get; set; }
         public Nullable<byte> timeZone { get; set; }
         public Nullable<bool> enabled { get; set; }
+    
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BrandInfo> BrandInfoes { get; set; }
     }
 }

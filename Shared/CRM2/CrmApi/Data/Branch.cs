@@ -18,6 +18,7 @@ namespace CrmApi.Data
         public Branch()
         {
             this.Branch1 = new HashSet<Branch>();
+            this.BrandInfoes = new HashSet<BrandInfo>();
         }
     
         public int branchId { get; set; }
@@ -34,5 +35,7 @@ namespace CrmApi.Data
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Branch> Branch1 { get; set; }
         public virtual Branch Branch2 { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<BrandInfo> BrandInfoes { get; set; }
     }
 }

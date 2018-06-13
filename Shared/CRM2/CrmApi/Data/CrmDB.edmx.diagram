@@ -13,6 +13,12 @@
         <AssociationConnector Association="CrmDBModel.FK_Branch_ParentBranch" />
         <EntityTypeShape EntityType="CrmDBModel.Department" Width="1.5" PointX="9" PointY="2.125" />
         <EntityTypeShape EntityType="CrmDBModel.DepartmentUser" Width="1.5" PointX="0.75" PointY="5.75" />
+        <EntityTypeShape EntityType="CrmDBModel.BrandInfo" Width="1.5" PointX="11.25" PointY="1.5" />
+        <EntityTypeShape EntityType="CrmDBModel.User" Width="1.5" PointX="9" PointY="7.75" />
+        <AssociationConnector Association="CrmDBModel.FK_BrandInfo_Branch" />
+        <AssociationConnector Association="CrmDBModel.FK_BrandInfo_Department" />
+        <AssociationConnector Association="CrmDBModel.FK_BrandInfo_User" />
+        <EntityTypeShape EntityType="CrmDBModel.UserPosition" Width="1.5" PointX="0.75" PointY="9" />
         </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

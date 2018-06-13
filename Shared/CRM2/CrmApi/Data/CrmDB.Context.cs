@@ -31,5 +31,8 @@ namespace CrmApi.Data
         public virtual DbSet<Language> Languages { get; set; }
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<DepartmentUser> DepartmentUsers { get; set; }
+        public virtual DbSet<BrandInfo> BrandInfoes { get; set; }
+        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserPosition> UserPositions { get; set; }
     }
 }

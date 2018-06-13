@@ -203,18 +203,25 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\BranchesController.cs" />
+    <Compile Include="Controllers\BrandInfoesController.cs" />
     <Compile Include="Controllers\Brands1Controller.cs" />
     <Compile Include="Controllers\BrandsController.cs" />
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\DepartmentUsersController.cs" />
+    <Compile Include="Controllers\FileUploadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LanguagesController.cs" />
     <Compile Include="Controllers\ServersController.cs" />
     <Compile Include="Controllers\TradingServersController.cs" />
+    <Compile Include="Controllers\UserPositionsController.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Data\Branch.cs">
       <DependentUpon>CrmDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\Brand.cs">
+      <DependentUpon>CrmDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\BrandInfo.cs">
       <DependentUpon>CrmDB.tt</DependentUpon>
     </Compile>
     <Compile Include="Data\CrmDB.Context.cs">
@@ -244,11 +251,19 @@
     <Compile Include="Data\TradingServer.cs">
       <DependentUpon>CrmDB.tt</DependentUpon>
     </Compile>
+    <Compile Include="Data\User.cs">
+      <DependentUpon>CrmDB.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Data\UserPosition.cs">
+      <DependentUpon>CrmDB.tt</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Branches.cs" />
+    <Compile Include="Models\BrandInfo.cs" />
     <Compile Include="Models\Languages.cs" />
+    <Compile Include="Models\Users.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
