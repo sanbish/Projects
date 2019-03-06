@@ -11,5 +11,4 @@ export class TableListComponent implements OnInit {
 
   ngOnInit() {
   }
-
 }
